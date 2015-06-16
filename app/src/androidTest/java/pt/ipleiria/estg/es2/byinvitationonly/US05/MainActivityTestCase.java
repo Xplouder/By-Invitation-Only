@@ -14,15 +14,14 @@ import android.widget.Spinner;
 import com.firebase.client.Firebase;
 import com.robotium.solo.Solo;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.DetailsSessionActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.ActiveSessionsFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.AgendaFragment;
@@ -46,7 +45,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         super.setUp();
         setImHereSharedPrefs(false);
         solo = new Solo(getInstrumentation(), getActivity());
-        deleteFileSessions(getActivity());
+        deleteAllSessionsOnAgenda(getActivity());
         enableCommunications();
         removeAllSessions();
         solo.unlockScreen();
@@ -511,11 +510,9 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
             """
    */
 
-    private void deleteFileSessions(Context context) {
-        File file = new File(context.getFilesDir(), FileController.SESSIONS_FILE);
-        if (file.exists()) {
-            assertTrue("As sessoes nao foram apagadas", file.delete());
-        }
+    private void deleteAllSessionsOnAgenda(Context context) {
+        DBAdapter dbAdapter = new DBAdapter(context);
+        dbAdapter.removeAllSessions();
     }
 
     private void checkDrawerStatusIfOpenThenClose() {
@@ -633,14 +630,14 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     }
 
     private LinkedList<Session> getSessionsOnAgenda() {
-        LinkedList<Session> allSessions = FileController.importSessions(getActivity());
-        LinkedList<Session> listSessionsFromFile = new LinkedList<>();
-        for (Session s : allSessions) {
+        DBAdapter dbAdapter = new DBAdapter(getActivity());
+        LinkedList<Session> sessionsOnAgenda = new LinkedList<>();
+        for (Session s : dbAdapter.getSessions()) {
             if (s.isOnAgenda()) {
-                listSessionsFromFile.add(s);
+                sessionsOnAgenda.add(s);
             }
         }
-        return listSessionsFromFile;
+        return sessionsOnAgenda;
     }
 
     private void openFilterDialog() {

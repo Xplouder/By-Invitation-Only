@@ -17,17 +17,16 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.robotium.solo.Solo;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.HomepageFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.StatisticsFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
@@ -63,7 +62,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         setImHereSharedPrefs(false);
         solo = new Solo(getInstrumentation(), getActivity());
         enableCommunications();
-        deleteFileSessions(getActivity());
+        deleteAllSessionsOnAgenda(getActivity());
         removeAllSessions();
         solo.unlockScreen();
         checkDrawerStatusIfOpenThenClose();
@@ -211,11 +210,9 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     */
 
 
-    private void deleteFileSessions(Context context) {
-        File file = new File(context.getFilesDir(), FileController.SESSIONS_FILE);
-        if (file.exists()) {
-            assertTrue("As sessoes nao foram apagadas", file.delete());
-        }
+    private void deleteAllSessionsOnAgenda(Context context) {
+        DBAdapter dbAdapter = new DBAdapter(context);
+        dbAdapter.removeAllSessions();
     }
 
     private void removeAllSessions() {

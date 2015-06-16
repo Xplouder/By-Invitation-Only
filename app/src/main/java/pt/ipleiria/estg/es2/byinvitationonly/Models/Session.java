@@ -42,7 +42,8 @@ public class Session implements Serializable, Comparable<Session> {
 
     // Constructor for sessions from Firebase
     public Session(String date, String startHour, String endHour, String room,
-                   String track, String title, String presenter, String abstracts, String myRating, String firebaseSessionNode, String onAgenda) {
+                   String track, String title, String presenter, String abstracts,
+                   String myRating, String firebaseSessionNode, String onAgenda) {
         this.startHour = startHour;
         this.date = stringToDate(date);
         this.endHour = endHour;

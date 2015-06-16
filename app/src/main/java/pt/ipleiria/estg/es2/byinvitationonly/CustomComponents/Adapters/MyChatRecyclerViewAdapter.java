@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters;
 
 import android.content.Context;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,10 +41,10 @@ public class MyChatRecyclerViewAdapter extends RecyclerView.Adapter<MyChatRecycl
 
         if (!chatList.get(position).getReceiver().getEmail().equals(SharedPreferenceController.getLocalStoredUserContact(context).getEmail())) {
             viewHolder.rl.setGravity(Gravity.END);
-            viewHolder.mTextView.setBackground(context.getResources().getDrawable(R.drawable.my_balloon));
+            viewHolder.mTextView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.my_balloon, null));
         } else {
             viewHolder.rl.setGravity(Gravity.START);
-            viewHolder.mTextView.setBackground(context.getResources().getDrawable(R.drawable.other_balloon));
+            viewHolder.mTextView.setBackground(ResourcesCompat.getDrawable(context.getResources(), R.drawable.other_balloon, null));
         }
         viewHolder.mTextView.setText(m);
     }

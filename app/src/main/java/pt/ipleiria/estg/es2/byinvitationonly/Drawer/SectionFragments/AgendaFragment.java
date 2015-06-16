@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyAgendaRecyclerViewAdapter;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.DetailsSessionActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
@@ -30,6 +30,7 @@ public class AgendaFragment extends Fragment implements MyAgendaRecyclerViewAdap
     private TextView emptyView;
     private MyAgendaRecyclerViewAdapter mDataAdapter;
     private LinkedList<Session> sessionList;
+    private DBAdapter dbAdapter;
 
     public AgendaFragment() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class AgendaFragment extends Fragment implements MyAgendaRecyclerViewAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbAdapter = new DBAdapter(getActivity());
     }
 
     @Override
@@ -94,9 +96,8 @@ public class AgendaFragment extends Fragment implements MyAgendaRecyclerViewAdap
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LinkedList<Session> allSessions = FileController.importSessions(getActivity());
         LinkedList<Session> onlyAgendaSessions = new LinkedList<>();
-        for (Session s : allSessions) {
+        for (Session s : dbAdapter.getSessions()) {
             if (s.isOnAgenda()) {
                 onlyAgendaSessions.add(s);
             }

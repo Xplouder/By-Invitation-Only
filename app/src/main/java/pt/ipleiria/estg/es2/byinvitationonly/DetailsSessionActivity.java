@@ -13,10 +13,10 @@ import android.widget.CheckBox;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
 import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
@@ -27,12 +27,14 @@ public class DetailsSessionActivity extends MyBaseActivity {
     private CheckBox checkBox;
     private BroadcastReceiver broadcastReceiver;
     private Context context;
+    private DBAdapter dbAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Intent i = getIntent();
+        this.dbAdapter = new DBAdapter(getApplicationContext());
         session = (Session) i.getSerializableExtra(EXTRA_SESSION);
         isChecked = i.getBooleanExtra(EXTRA_ISCHECKED, false);
         this.context = this;
@@ -45,6 +47,9 @@ public class DetailsSessionActivity extends MyBaseActivity {
                     if (NetworkController.existConnection(getApplicationContext())) {
                         session.setMyRating(myRatingBar.getRating());
                         FirebaseController.sendSessionRating(session, SharedPreferenceController.getUserID(getApplicationContext()));
+                        if (dbAdapter.existsSessionOnAgenda(session)) {
+                            dbAdapter.updateSession(session);
+                        }
                     } else {
                         showConnectivityError();
                         ratingBar.setRating(session.getMyRating());
@@ -57,7 +62,11 @@ public class DetailsSessionActivity extends MyBaseActivity {
             @Override
             public void onClick(View v) {
                 session.setOnAgenda(checkBox.isChecked());
-                FileController.updateSessionStateOnAgenda(context, session);
+                if (checkBox.isChecked()) {
+                    dbAdapter.addSession(session);
+                } else {
+                    dbAdapter.removeSession(session);
+                }
             }
         });
 

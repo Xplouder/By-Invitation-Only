@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
@@ -70,10 +69,6 @@ public class MainActivity extends MyBaseActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        if (!FileController.existFiles(this)) {
-            FileController.copyAssets(getAssets(), this);
-        }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -140,12 +135,11 @@ public class MainActivity extends MyBaseActivity implements
 
     private void setFirebaseConfigs() {
         Firebase.setAndroidContext(getApplicationContext());
-        /* if (!Firebase.getDefaultConfig().isPersistenceEnabled()) {
-                Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        }*/
-        //FirebaseController.fbSessionsNode.keepSynced(true);
-        //FirebaseController.fbConferenceNode.keepSynced(true);
-
+        if (!Firebase.getDefaultConfig().isPersistenceEnabled()) {
+            Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        }
+        FirebaseController.fbSessionsNode.keepSynced(true);
+        FirebaseController.fbConferenceNode.keepSynced(true);
     }
 
     private Contact getContactFromBytes(String l) {

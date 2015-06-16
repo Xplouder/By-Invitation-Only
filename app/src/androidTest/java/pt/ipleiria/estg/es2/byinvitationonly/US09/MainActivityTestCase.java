@@ -18,7 +18,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.robotium.solo.Solo;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -26,10 +25,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import pt.ipleiria.estg.es2.byinvitationonly.ContactChatActivity;
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.ConferenceScheduleFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.WhoIsHereFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
@@ -57,7 +56,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         setImHereSharedPrefs(false);
         solo = new Solo(getInstrumentation(), getActivity());
         enableCommunications();
-        deleteSessionsFiles(getActivity());
+        deleteAllSessionsOnAgenda(getActivity());
         removeAllSessionsOnServer();
         removeAllContactsOnServer();
         removeAllMessagesOnServer();
@@ -149,6 +148,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     public void testSendAgenda() {
         testSendAgendaCheckDialog();
         solo.clickOnText(solo.getString(R.string.yes));
+        solo.sleep(2000);
         assertTrue("A mensagem nao foi enviada para o servidor", isMessageOnServer(getAgendaForAttach()));
         Session s = getAgenda().getFirst();
         assertTrue("O dia não foi enviado", solo.searchText(s.getDateFormattedString()));
@@ -214,14 +214,14 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     }
 
     private LinkedList<Session> getAgenda() {
-        LinkedList<Session> sessions = FileController.importSessions(getActivity());
-        LinkedList<Session> agenda = new LinkedList<>();
-        for (Session s : sessions) {
+        DBAdapter dbAdapter = new DBAdapter(getActivity());
+        LinkedList<Session> sessionsOnAgenda = new LinkedList<>();
+        for (Session s : dbAdapter.getSessions()) {
             if (s.isOnAgenda()) {
-                agenda.add(s);
+                sessionsOnAgenda.add(s);
             }
         }
-        return agenda;
+        return sessionsOnAgenda;
     }
 
     private LinkedList<Session> orderByDate(LinkedList<Session> sessionList) {
@@ -281,11 +281,9 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
                 getActivity().getFragmentManager().findFragmentById(R.id.container) instanceof ConferenceScheduleFragment);
     }
 
-    private void deleteSessionsFiles(Context context) {
-        File file = new File(context.getFilesDir(), FileController.SESSIONS_FILE);
-        if (file.exists()) {
-            assertTrue("As sessoes nao foram apagadas", file.delete());
-        }
+    private void deleteAllSessionsOnAgenda(Context context) {
+        DBAdapter dbAdapter = new DBAdapter(context);
+        dbAdapter.removeAllSessions();
     }
 
     private boolean isMessageOnServer(final String message) {

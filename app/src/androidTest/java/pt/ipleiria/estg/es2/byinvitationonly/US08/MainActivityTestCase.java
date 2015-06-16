@@ -92,6 +92,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         solo.clearEditText(et);
         solo.enterText(et, "Mensagem Test");
         solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.buttonSendMessage));
+        solo.sleep(2000);
         assertTrue("A mensagem não existe no servidor", isMessageOnServer("Mensagem Test"));
         removeAllMessagesOnServer();
     }

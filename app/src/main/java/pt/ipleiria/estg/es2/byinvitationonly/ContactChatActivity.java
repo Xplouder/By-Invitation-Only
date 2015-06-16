@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyChatRecyclerViewAdapter;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Message;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
@@ -43,11 +43,13 @@ public class ContactChatActivity extends Activity {
     private Firebase[] intercommunicateNodes;
     private Firebase nodeNewReceivedMessages;
     private Context context;
+    private DBAdapter dbAdapter;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.dbAdapter = new DBAdapter(getApplicationContext());
         setContentView(R.layout.activity_contact_chat);
         otherContact = (Contact) getIntent().getSerializableExtra(EXTRA_CONTACT);
         TextView textViewContact = (TextView) this.findViewById(R.id.textViewContactToChat);
@@ -158,9 +160,8 @@ public class ContactChatActivity extends Activity {
     }
 
     private LinkedList<Session> getAgenda() {
-        LinkedList<Session> sessions = FileController.importSessions(this);
         LinkedList<Session> agenda = new LinkedList<>();
-        for (Session s : sessions) {
+        for (Session s : dbAdapter.getSessions()) {
             if (s.isOnAgenda()) {
                 agenda.add(s);
             }

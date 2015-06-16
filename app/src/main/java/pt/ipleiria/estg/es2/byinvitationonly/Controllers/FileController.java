@@ -1,31 +1,12 @@
 package pt.ipleiria.estg.es2.byinvitationonly.Controllers;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.LinkedList;
-
-import pt.ipleiria.estg.es2.byinvitationonly.Models.Conference;
-import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
-
 public class FileController {
 
 
     public static final String CONFERENCE_FILE = "DadosConferencia.csv";
     public static final String SESSIONS_FILE = "DadosSessoes.csv";
 
-    public static Conference importConference(Context context) throws IOException {
+    /*public static Conference importConference(Context context) throws IOException {
         File file = new File(context.getFilesDir(), CONFERENCE_FILE);
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -306,5 +287,5 @@ public class FileController {
             ex.printStackTrace();
         }
         return false;
-    }
+    }*/
 }

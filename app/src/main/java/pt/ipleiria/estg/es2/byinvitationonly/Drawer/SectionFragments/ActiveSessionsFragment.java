@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SessionHelper;
@@ -119,11 +118,7 @@ public class ActiveSessionsFragment extends Fragment {
             }
 
             private void refreshList() {
-                if (NetworkController.existConnection(getActivity())) {
-                    FirebaseController.getConferenceSessionsOnce(fireBaseHandler, getActivity());
-                } else {
-                    loadSessionData(FileController.importSessions(getActivity()));
-                }
+                FirebaseController.getConferenceSessionsOnce(fireBaseHandler, getActivity());
             }
         };
     }
@@ -177,7 +172,6 @@ public class ActiveSessionsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadSessionData(FileController.importSessions(getActivity()));
         if (NetworkController.existConnection(getActivity())) {
             pb.setVisibility(View.VISIBLE);
             FirebaseController.getConferenceSessionsOnce(fireBaseHandler, getActivity());

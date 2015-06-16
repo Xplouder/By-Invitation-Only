@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
@@ -102,42 +99,32 @@ public class HomepageFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        try {
-            loadConferenceData(FileController.importConference(getActivity()));
-            firebaseHandler = new FirebaseController.ValueFetched<Conference>() {
-                @Override
-                public void valuesFetched(final Conference data) {
-                    loadConferenceData(data);
-                }
-            };
-            if (NetworkController.existConnection(getActivity())) {
-                ProgressBar pb = (ProgressBar) getActivity().findViewById(R.id.progressBar);
-                pb.setVisibility(View.VISIBLE);
+        firebaseHandler = new FirebaseController.ValueFetched<Conference>() {
+            @Override
+            public void valuesFetched(final Conference data) {
+                loadConferenceData(data);
             }
-            FirebaseController.getConferenceData(firebaseHandler, getActivity());
+        };
+        if (NetworkController.existConnection(getActivity())) {
+            ProgressBar pb = (ProgressBar) getActivity().findViewById(R.id.progressBar);
+            pb.setVisibility(View.VISIBLE);
+        }
+        FirebaseController.getConferenceData(firebaseHandler, getActivity());
 
-            myRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        if (NetworkController.existConnection(getActivity()) && conference.getFirebaseConferenceNode() != null) {
-                            conference.setMyRating(myRatingBar.getRating());
-                            FirebaseController.sendConferenceRating(conference, SharedPreferenceController.getUserID(getActivity()));
-                        } else {
-                            showConnectivityError();
-                            ratingBar.setRating(conference.getMyRating());
-                        }
+        myRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (fromUser) {
+                    if (NetworkController.existConnection(getActivity()) && conference.getFirebaseConferenceNode() != null) {
+                        conference.setMyRating(myRatingBar.getRating());
+                        FirebaseController.sendConferenceRating(conference, SharedPreferenceController.getUserID(getActivity()));
+                    } else {
+                        showConnectivityError();
+                        ratingBar.setRating(conference.getMyRating());
                     }
                 }
-            });
-        } catch (IOException e) {
-            AlertDialog.Builder construct = new AlertDialog.Builder(getActivity());
-            construct.setTitle(getString(R.string.warning))
-                    .setMessage(getString(R.string.toast_error_files))
-                    .setPositiveButton(getString(R.string.ok), null)
-                    .create()
-                    .show();
-        }
+            }
+        });
     }
 
 

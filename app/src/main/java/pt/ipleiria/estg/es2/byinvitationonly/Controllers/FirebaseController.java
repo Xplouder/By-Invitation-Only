@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Conference;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
@@ -189,7 +190,6 @@ public class FirebaseController {
                         sessionlist.add(createNewSession(session, context));
                     }
                 }
-                FileController.exportSessions(context, sessionlist);
                 callHandler(handler, sessionlist);
             }
 
@@ -211,7 +211,6 @@ public class FirebaseController {
                 for (DataSnapshot session : dataSnapshot.getChildren()) {
                     sessionlist.add(createNewSession(session, context));
                 }
-                FileController.exportSessions(context, sessionlist);
                 callHandler(handler, sessionlist);
             }
 
@@ -429,9 +428,10 @@ public class FirebaseController {
             }
         }
 
+        DBAdapter dbAdapter = new DBAdapter(context);
         Session s = new Session(date, start, end, room, track, title,
                 presenter, abstract_session, myRating, session.getRef().toString(), "false");
-        s.setOnAgenda(FileController.isSessionOnAgenda(context, s));
+        s.setOnAgenda(dbAdapter.existsSessionOnAgenda(s));
         return s;
     }
 
@@ -496,7 +496,6 @@ public class FirebaseController {
                 if (canCreate) {
                     Conference newConference = new Conference(abbreviation, fullName, location, dates,
                             logoURL, website, callForPapers, Float.parseFloat(myRating), conference.getRef().toString());
-                    FileController.exportConference(context, newConference);
                     handler.valuesFetched(newConference);
                 }
             }

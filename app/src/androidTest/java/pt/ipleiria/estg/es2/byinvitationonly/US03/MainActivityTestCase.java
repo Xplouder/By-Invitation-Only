@@ -15,15 +15,14 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.robotium.solo.Solo;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.DetailsSessionActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.ActiveSessionsFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.AgendaFragment;
@@ -50,7 +49,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         super.setUp();
         setImHereSharedPrefs(false);
         solo = new Solo(getInstrumentation(), getActivity());
-        deleteFileSessions(getActivity());
+        deleteAllSessionsOnAgenda(getActivity());
         enableCommunications();
         removeAllSessions();
         solo.unlockScreen();
@@ -153,7 +152,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         createSessionOnServer(newSession);
         openScheduleFrag();
         solo.clickOnText(solo.getString(R.string.checkbox_session_to_agenda));
-        solo.sleep(7000);
+        solo.sleep(2000);
         openMyAgendaFrag();
         RatingBar rb = (RatingBar) solo.getView(R.id.ratingBarSessions);
         assertTrue("A opção para dar feedback não apareceu", rb.getVisibility() == View.VISIBLE);
@@ -177,7 +176,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         createSessionOnServer(newSession);
         openScheduleFrag();
         solo.clickOnText(solo.getString(R.string.checkbox_session_to_agenda));
-        solo.sleep(7000);
+        solo.sleep(2000);
         openMyAgendaFrag();
 
         RatingBar rb = (RatingBar) solo.getView(R.id.ratingBarSessions);
@@ -203,7 +202,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         createSessionOnServer(newSession);
         openScheduleFrag();
         solo.clickOnText(solo.getString(R.string.checkbox_session_to_agenda));
-        solo.sleep(7000);
+        solo.sleep(2000);
         openMyAgendaFrag();
         RatingBar rb = (RatingBar) solo.getView(R.id.ratingBarSessions);
         solo.setWiFiData(false);
@@ -321,7 +320,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         solo.clickOnText(newSession.getTitle());
         RatingBar rb = (RatingBar) solo.getView(R.id.ratingBarDetails);
         solo.clickOnView(rb);
-        solo.sleep(4000);
+        solo.sleep(2000);
         assertTrue("Feedback da sessão não corresponde", Math.abs(getSessionRatingFromFirebase() - (float) 3) < 0.001);
         solo.goBack();
         assertTrue("Feedback da sessão não corresponde aos dados do servidor", Math.abs(getSessionRatingFromFirebase() - (float) 3) < 0.001);
@@ -493,7 +492,7 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         createSessionOnServer(newSession);
         openScheduleFrag();
         solo.clickOnText(solo.getString(R.string.checkbox_session_to_agenda));
-        solo.sleep(7000);
+        solo.sleep(2000);
         openMyAgendaFrag();
         RatingBar ratingBar = (RatingBar) solo.getView(R.id.ratingBarSessions);
         assertTrue("O rating bar não está invisivel, está visivel", ratingBar.getVisibility() == View.INVISIBLE);
@@ -609,11 +608,9 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
                 getActivity().getFragmentManager().findFragmentById(R.id.container) instanceof AgendaFragment);
     }
 
-    private void deleteFileSessions(Context context) {
-        File file = new File(context.getFilesDir(), FileController.SESSIONS_FILE);
-        if (file.exists()) {
-            assertTrue("As sessoes nao foram apagadas", file.delete());
-        }
+    private void deleteAllSessionsOnAgenda(Context context) {
+        DBAdapter dbAdapter = new DBAdapter(context);
+        dbAdapter.removeAllSessions();
     }
 
     private void removeAllSessions() {

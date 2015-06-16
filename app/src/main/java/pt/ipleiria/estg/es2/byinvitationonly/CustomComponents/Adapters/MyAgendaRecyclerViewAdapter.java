@@ -15,10 +15,10 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
 import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
@@ -30,12 +30,14 @@ public class MyAgendaRecyclerViewAdapter extends RecyclerView.Adapter<MyAgendaRe
     private ItemClickListener clickListener;
     private Context context;
     private OnEmptyListListener mListener;
+    private DBAdapter dbAdapter;
 
     public MyAgendaRecyclerViewAdapter(Context context, List<Session> sessionList, Fragment frag) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.sessionList = sessionList;
         this.mListener = (OnEmptyListListener) frag;
+        this.dbAdapter = new DBAdapter(context);
     }
 
     public void setSessionList(List<Session> sessionList) {
@@ -62,9 +64,9 @@ public class MyAgendaRecyclerViewAdapter extends RecyclerView.Adapter<MyAgendaRe
         viewHolder.textDate.setText(currentSession.getDayMonthOnString());
         viewHolder.textTrack.setText(currentSession.getTrack());
         viewHolder.textRoom.setText(currentSession.getRoom());
+        viewHolder.myRatingBar.setRating(currentSession.getMyRating());
         if (currentSession.hasBegun()) {
             viewHolder.myRatingBar.setVisibility(View.VISIBLE);
-            viewHolder.myRatingBar.setRating(currentSession.getMyRating());
         } else {
             viewHolder.myRatingBar.setVisibility(View.INVISIBLE);
         }
@@ -113,6 +115,9 @@ public class MyAgendaRecyclerViewAdapter extends RecyclerView.Adapter<MyAgendaRe
                         if (NetworkController.existConnection(context)) {
                             session.setMyRating(myRatingBar.getRating());
                             FirebaseController.sendSessionRating(session, SharedPreferenceController.getUserID(context));
+                            if (dbAdapter.existsSessionOnAgenda(session)) {
+                                dbAdapter.updateSession(session);
+                            }
                         } else {
                             showConnectivityError();
                             ratingBar.setRating(session.getMyRating());
@@ -125,7 +130,7 @@ public class MyAgendaRecyclerViewAdapter extends RecyclerView.Adapter<MyAgendaRe
                 @Override
                 public void onClick(View v) {
                     session.setOnAgenda(false);
-                    FileController.updateSessionStateOnAgenda(context, session);
+                    dbAdapter.removeSession(session);
                     int temp = sessionList.indexOf(session);
                     sessionList.remove(session);
                     notifyItemRemoved(temp);

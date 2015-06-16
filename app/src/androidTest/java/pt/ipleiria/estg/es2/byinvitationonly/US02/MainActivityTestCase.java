@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -516,7 +517,10 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         assertTrue("Não foi encontrado o título no drawer", solo.searchText(solo.getString(R.string.title_conference_schedule_fragment)));
         String scheduleTitle = solo.getString(R.string.title_conference_schedule_fragment);
         solo.clickOnText(scheduleTitle);
-        solo.sleep(2000);
+        ProgressBar pb = (ProgressBar) solo.getView(R.id.progressBar);
+        while (pb.getVisibility() == View.VISIBLE) {
+            solo.sleep(200);
+        }
         return scheduleTitle;
     }
 

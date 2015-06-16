@@ -13,11 +13,11 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SessionHelper;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
+import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
 import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
@@ -27,12 +27,14 @@ public class MyActiveSessionsRecyclerViewAdapter extends RecyclerView.Adapter<My
     private List<Session> activeSessionList = Collections.emptyList();
     private ItemClickListener clickListener;
     private Context context;
+    private DBAdapter dbAdapter;
 
 
     public MyActiveSessionsRecyclerViewAdapter(Context context, List<Session> activeSessionList) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         this.activeSessionList = activeSessionList;
+        this.dbAdapter = new DBAdapter(context);
     }
 
     public void setClickListener(ItemClickListener clickListener) {
@@ -67,14 +69,6 @@ public class MyActiveSessionsRecyclerViewAdapter extends RecyclerView.Adapter<My
         viewHolder.textViewRemainingTime.setText(SessionHelper.calculateRemainingTimeString(currentSession.getEndHour()));
         viewHolder.myRatingBar.setRating(currentSession.getMyRating());
         viewHolder.setClickListener(clickListener, currentSession);
-
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentSession.setOnAgenda(viewHolder.checkBox.isChecked());
-                FileController.updateSessionStateOnAgenda(context, currentSession);
-            }
-        });
     }
 
     @Override
@@ -120,6 +114,9 @@ public class MyActiveSessionsRecyclerViewAdapter extends RecyclerView.Adapter<My
                         if (NetworkController.existConnection(context)) {
                             session.setMyRating(myRatingBar.getRating());
                             FirebaseController.sendSessionRating(session, SharedPreferenceController.getUserID(context));
+                            if (dbAdapter.existsSessionOnAgenda(session)) {
+                                dbAdapter.updateSession(session);
+                            }
                         } else {
                             showConnectivityError();
                             ratingBar.setRating(session.getMyRating());
@@ -131,7 +128,11 @@ public class MyActiveSessionsRecyclerViewAdapter extends RecyclerView.Adapter<My
                 @Override
                 public void onClick(View v) {
                     session.setOnAgenda(checkBox.isChecked());
-                    FileController.updateSessionStateOnAgenda(context, session);
+                    if (checkBox.isChecked()) {
+                        dbAdapter.addSession(session);
+                    } else {
+                        dbAdapter.removeSession(session);
+                    }
                 }
             });
         }
