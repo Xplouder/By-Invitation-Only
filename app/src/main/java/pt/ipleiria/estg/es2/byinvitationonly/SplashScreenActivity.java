@@ -7,6 +7,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.firebase.client.Firebase;
+
+import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
 
@@ -39,7 +42,17 @@ public class SplashScreenActivity extends Activity {
         super.onStart();
         ImageView myImageView = (ImageView) findViewById(R.id.imageViewLogo);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.tween);
-        timer.start();
         myImageView.startAnimation(myFadeInAnimation);
+        timer.start();
+        setFirebaseConfigs();
+    }
+
+    private void setFirebaseConfigs() {
+        Firebase.setAndroidContext(getApplicationContext());
+        if (!Firebase.getDefaultConfig().isPersistenceEnabled()) {
+            Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        }
+        FirebaseController.fbSessionsNode.keepSynced(true);
+        FirebaseController.fbConferenceNode.keepSynced(true);
     }
 }

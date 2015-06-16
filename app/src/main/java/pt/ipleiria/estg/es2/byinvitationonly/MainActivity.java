@@ -19,8 +19,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
-import com.firebase.client.Firebase;
-
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,8 +77,6 @@ public class MainActivity extends MyBaseActivity implements
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        setFirebaseConfigs();
-
         isChecked = SharedPreferenceController.isImHereActive(MainActivity.this);
 
         mNavigationDrawerFragment.setOnAdapterWhoIsHere(isChecked);
@@ -131,15 +127,6 @@ public class MainActivity extends MyBaseActivity implements
                     });
             builderSingle.show();
         }
-    }
-
-    private void setFirebaseConfigs() {
-        Firebase.setAndroidContext(getApplicationContext());
-        if (!Firebase.getDefaultConfig().isPersistenceEnabled()) {
-            Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        }
-        FirebaseController.fbSessionsNode.keepSynced(true);
-        FirebaseController.fbConferenceNode.keepSynced(true);
     }
 
     private Contact getContactFromBytes(String l) {
