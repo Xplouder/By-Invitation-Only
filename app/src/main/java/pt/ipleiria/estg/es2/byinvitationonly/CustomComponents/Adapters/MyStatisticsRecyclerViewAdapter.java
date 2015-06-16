@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Models.StatisticData;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MyStatisticsRecyclerViewAdapter extends RecyclerView.Adapter<MyStatisticsRecyclerViewAdapter.ViewHolder> {

@@ -26,7 +26,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.WhoIsHereFr
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Message;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainActivity> {

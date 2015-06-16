@@ -22,7 +22,7 @@ import java.util.List;
 import pt.ipleiria.estg.es2.byinvitationonly.ContactChatActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MyContactsRecyclerViewAdapter extends RecyclerView.Adapter<MyContactsRecyclerViewAdapter.ViewHolder> {

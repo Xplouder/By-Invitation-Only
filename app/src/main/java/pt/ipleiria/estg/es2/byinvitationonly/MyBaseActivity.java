@@ -11,7 +11,6 @@ import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.WhoIsHereFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
 
 public abstract class MyBaseActivity extends Activity {

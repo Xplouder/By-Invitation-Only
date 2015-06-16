@@ -36,7 +36,6 @@ import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.StatisticsF
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.WhoIsHereFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.Interfaces.DrawerItemSwitcher;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
 
 public class MainActivity extends MyBaseActivity implements

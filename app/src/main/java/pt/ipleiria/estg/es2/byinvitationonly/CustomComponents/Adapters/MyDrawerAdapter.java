@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.DrawerRowItem;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MyDrawerAdapter extends ArrayAdapter<DrawerRowItem> {

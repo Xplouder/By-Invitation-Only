@@ -24,7 +24,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyContactsRecyclerViewAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 /**

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import com.firebase.client.Firebase;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
 
 public class SplashScreenActivity extends Activity {

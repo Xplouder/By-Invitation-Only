@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import java.util.Random;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class SharedPreferenceController {

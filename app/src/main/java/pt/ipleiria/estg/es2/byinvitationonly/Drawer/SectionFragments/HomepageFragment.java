@@ -22,8 +22,8 @@ import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Conference;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 import pt.ipleiria.estg.es2.byinvitationonly.Utils.RoundedTransform;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
 
 
 /**

@@ -29,8 +29,6 @@ import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Contact;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Message;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
-
 
 public class ContactChatActivity extends Activity {
 

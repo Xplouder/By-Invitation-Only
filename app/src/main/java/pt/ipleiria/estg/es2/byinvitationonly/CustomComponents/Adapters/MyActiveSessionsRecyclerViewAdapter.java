@@ -19,7 +19,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SessionHelper;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 public class MyActiveSessionsRecyclerViewAdapter extends RecyclerView.Adapter<MyActiveSessionsRecyclerViewAdapter.ViewHolder> {
 

@@ -28,7 +28,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.AgendaFragm
 import pt.ipleiria.estg.es2.byinvitationonly.Drawer.SectionFragments.ConferenceScheduleFragment;
 import pt.ipleiria.estg.es2.byinvitationonly.MainActivity;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Session;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainActivity> {

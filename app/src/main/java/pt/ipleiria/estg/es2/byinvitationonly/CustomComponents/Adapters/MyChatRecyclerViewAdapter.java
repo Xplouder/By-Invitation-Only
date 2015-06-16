@@ -15,7 +15,7 @@ import java.util.List;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.Message;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 public class MyChatRecyclerViewAdapter extends RecyclerView.Adapter<MyChatRecyclerViewAdapter.ViewHolder> {

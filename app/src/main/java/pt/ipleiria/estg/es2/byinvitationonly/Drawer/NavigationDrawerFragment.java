@@ -25,7 +25,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceControl
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyDrawerAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.DrawerRowItem;
 import pt.ipleiria.estg.es2.byinvitationonly.Interfaces.DrawerItemSwitcher;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 /**

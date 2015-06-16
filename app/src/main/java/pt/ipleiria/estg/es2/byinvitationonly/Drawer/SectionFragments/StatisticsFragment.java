@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyStatisticsRecyclerViewAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Models.StatisticData;
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
+import pt.ipleiria.estg.es2.byinvitationonly.R;
 
 
 /**

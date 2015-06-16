@@ -9,8 +9,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
-import pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly.R;
-
 public class ContactSettingsActivity extends PreferenceActivity {
 
     private boolean isChecked = false;
