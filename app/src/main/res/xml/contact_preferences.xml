@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.MyEditTextPreference
+            android:defaultValue=""
+            android:key="@string/pref_key_name"
+            android:summary="@string/request_fill_name"
+            android:title="@string/name" />
+        <pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.MyEditTextPreference
+            android:defaultValue=""
+            android:key="@string/pref_key_email"
+            android:summary="@string/request_fill_email"
+            android:title="@string/email" />
+    </PreferenceCategory>
+</PreferenceScreen>

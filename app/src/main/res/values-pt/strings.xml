@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Definições</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="ad_confirmShare">Confirma a partilha de dados?</string>
+    <string name="error_connectivity">Não existe conetividade. Tente novamente mais tarde.</string>
+    <string name="confirmation">Confirmação</string>
+    <string name="name">Nome</string>
+    <string name="request_fill_name">Introduza o seu nome completo</string>
+    <string name="request_fill_email">Introduza o seu E-mail</string>
+    <string name="incomplete_data">Dados Incompletos</string>
+    <string name="ad_incomplete_data">Os dados do contacto estão incompletos.\nDeseja completá-los?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="warning">Aviso!</string>
+    <string name="disableSharing">Desativar partilha</string>
+    <string name="ad_disableSharing">Não tem os dados preenchidos! Assim não pode manter a partilha do contato ativa.</string>
+    <string name="loading">Carregando…</string>
+    <string name="toast_error_files">Erro ao ler os ficheiros! </string>
+    <string name="action_example">Ação Exemplo</string>
+    <string name="app_name">By Invitation Only</string>
+    <string name="presenter">Apresentador</string>
+    <string name="back">Voltar</string>
+    <string name="date">Data</string>
+    <string name="startHourView">Hora de início</string>
+    <string name="email">E-mail</string>
+    <string name="exit">Sair</string>
+    <string name="filter">Filtrar</string>
+    <string name="endHour">Hora de Fim</string>
+    <string name="i_am_here">Estou Aqui</string>
+    <string name="startHour">Hora de Início</string>
+    <string name="navigation_drawer_close">Fechar o navegador</string>
+    <string name="navigation_drawer_open">Abrir o navegador</string>
+    <string name="no_data">Sem dados</string>
+    <string name="ok">OK</string>
+    <string name="pref_key_email">email</string>
+    <string name="pref_key_name">nome</string>
+    <string name="refresh">Atualizar</string>
+    <string name="request_filter_track">Por favor selecione os trilhos que deseja filtrar:</string>
+    <string name="abstrac">Resumo</string>
+    <string name="abstractView">Resumo</string>
+    <string name="room">Sala</string>
+    <string name="roomView">Sala</string>
+    <string name="search">Procura</string>
+    <string name="title_activity_contact_settings">As minhas Definições</string>
+    <string name="title_activity_drawer">Navegador</string>
+    <string name="title_activity_my_base">MyBaseActivity</string>
+    <string name="title_activity_session_details">Detalhes de Sessão</string>
+    <string name="title_conference_schedule_fragment">Calendário da Conferência</string>
+    <string name="title_homepage_fragment">Página Inicial</string>
+    <string name="title_session_details">Detalhes de Sessão</string>
+    <string name="title_who_is_here_fragment">Quem está Aqui</string>
+    <string name="track">Trilho</string>
+    <string name="trackView">Trilho</string>
+    <string name="presenterView">Apresentador</string>
+    <string name="endHourView">Hora de Fim</string>
+    <string name="titleView">Title</string>
+    <string name="contact">Contato</string>
+    <string name="title_empty_message">Mensagem Vazia</string>
+    <string name="message_empty_message">Tem de escrever algo na mensagem para enviar.</string>
+    <string name="title_agenda_fragment">Minha Agenda</string>
+    <string name="myAgenda">Minha Agenda:</string>
+    <string name="empty_agenda">A sua agenda está vazia, não tem nada para enviar.</string>
+    <string-array name="spinner_filter_array">
+        <item>Tudo</item>
+        <item>Trilho</item>
+        <item>Na Agenda</item>
+    </string-array>
+    <string name="checkbox_session_to_agenda">Na Agenda</string>
+    <string name="choose_who">Escolha quem deseja ler:</string>
+    <string name="choseEmailClient">Escolha uma aplicação de Email:</string>
+    <string name="conference_title_header_statistics">Conferência</string>
+    <string name="confirmation_send_agenda">Tem a certeza que quer enviar a sua Agenda?</string>
+    <string name="credits_team">Powered by: TeamOutOfBoundsException</string>
+    <string name="default_send_chat_message">Escreva a sua mensagem…</string>
+    <string name="n_a_string">N/A</string>
+    <string name="notification_new_message">Tem nova(s) mensagem(s)</string>
+    <string name="noActivePersonsToNetworking">Não existem pessoas ativas</string>
+    <string name="no_active_sessions">De momento não existem sessões ativas</string>
+    <string name="notification_people_message">Alguém tentou falar consigo!</string>
+    <string name="sessions_title_header_statistics">Sessões</string>
+    <string name="title_active_session_fragment">Sessões Ativas</string>
+    <string name="title_activity_contact_chat">Chat</string>
+    <string name="title_statistics_fragment">Estatísticas</string>
+
+</resources>

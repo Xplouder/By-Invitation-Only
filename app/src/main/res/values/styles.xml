@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <!-- Customize your theme here. -->
+        <!--  <item name="android:colorPrimary">#3F51B5</item>
+          <item name="android:colorPrimaryDark">#303F9F</item>
+          &lt;!&ndash;<item name="android:colorPrimaryLight">#C5CAE9</item>&ndash;&gt;
+          <item name="android:colorAccent">#FF5722</item>
+          <item name="android:textColorPrimary">#212121</item>
+          <item name="android:textColorSecondary">#727272</item>
+          &lt;!&ndash;<item name="android:icons">#FFFFFF</item>&ndash;&gt;
+          <item name="android:divider">#B6B6B6</item>-->
+    </style>
+
+
+</resources>

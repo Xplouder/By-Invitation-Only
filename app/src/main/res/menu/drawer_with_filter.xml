@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pt.ipleiria.estg.es2.byinvitationonly.MainActivity">
+
+    <item
+        android:id="@+id/action_filter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:actionViewClass="android.widget.Spinner"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="@string/filter" />
+    <item
+        android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:title="@string/search" />
+    <item
+        android:id="@+id/action_i_am_here"
+        android:icon="@drawable/ic_action_alone"
+        android:orderInCategory="4"
+        android:showAsAction="always"
+        android:title="@string/i_am_here" />
+    <item
+        android:id="@+id/action_settings"
+        android:onClick="onOptionsItemSelected"
+        android:orderInCategory="5"
+        android:showAsAction="never"
+        android:title="@string/action_settings" />
+
+</menu>
