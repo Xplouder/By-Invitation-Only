@@ -9,7 +9,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -24,16 +23,13 @@ import com.robotium.solo.Solo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FileController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
@@ -67,10 +63,10 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         super.setUp();
         setImHereSharedPrefs(false);
         solo = new Solo(getInstrumentation(), getActivity());
-        solo.unlockScreen();
         enableCommunications();
         removeAllSessionsOnServer();
         sendSessionAssetToServer();
+        solo.unlockScreen();
         checkDrawerStatusIfOpenThenClose();
     }
 
@@ -149,55 +145,6 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         assertTrue("Não foram encontradas todas as sessões diponiveis", compareSessionLists(sessionList, originalSessionList));
     }
 
-    //[x]
-    /*Dado que estou no "programa geral da conferência" deve-me ser mostrada a
-    listagem de sessões carregada com os dados locais.*/
-    public void testLoadLocalData() {
-
-        //Nota:
-        // o firebase carrega os dados mais rápido que o solo a executar o método searchText
-        // dete modo a o teste não passa caso o WiFi esteja ligado quando o teste começa.
-        // Deste modo este teste desliga o wifi por pouco tempo de forma a diminuir a velocidade de
-        // resposta do servidor afim de simular o delay que existe entre a abertura da aplicação e
-        // na atualização com os dados do servidor.
-
-        disableCommunications();
-        LinkedList<Session> ss = new LinkedList<>();
-        ss.add(new Session("2014/02/12", "08:10", "09:50", "este", "teste", "impossivel", "de", "resolver"));
-        writeSessionsOnSessionFile(getActivity(), ss);
-        getInstrumentation().waitForIdleSync();
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnText(solo.getString(R.string.title_conference_schedule_fragment));
-
-        // verificacao antes de haver internet - garante que apresenta os dados locais
-        boolean antes = solo.waitForText("impossivel");
-
-        enableCommunications();
-
-        // simula o delay do servidor
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // verificacao depois de haver internet - garante que os dados foram
-        // atualizados com os do servidor e já não existe a sessão com o texto "impossivel"
-        boolean depois = solo.searchText("impossivel");
-
-        assertTrue("Nao carregou primeiro com os ficheiros locais", antes && !depois);
-    }
-
-    //[x]
-    /*Dado que estou no "programa geral da conferência", e já estão listadas as sessoes
-     do programa pelos dados locais e tenho rede, entao a listagem deve ser atualizada e o ficheiro deve
-     ser rescrito com os dados do servidor*/
-    public void testUpdateData() {
-        Session session = createDefaultSessionTestOnServer();
-        testLoadLocalData();
-        //assertTrue("Nao atualizou a listagem com os dados do servidor", solo.waitForText("Unit Testing"));
-        assertTrue("Nao atualizou o ficheiro com os dados do servidor", existStringOnSessionFile(getActivity(), session.getTitle()));
-    }
 
     //[x]
     /*Dado que estou no ecrã principal e tenho o Navigation Drawer aberto,
@@ -271,7 +218,6 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
    /* Dado que estou no ecrã principal e tenho o Navigation Drawer aberto,
     quando pressiono o item da lista "Conference Schedule",
     deve ser mostrado na mesma janela o fragmento com o título "Conference Schedule"*/
-
     public void testOpenDrawerMenuItemConferenceSchedule() {
         String scheduleTitle = openConferenceScheduleFragment();
         assertTrue("Não apareceu para o fragmento Conference Schedule",
@@ -327,29 +273,6 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         assertTrue("Sala não corresponde aos dados da lista", solo.waitForText(session.getRoom()));
         assertTrue("Track não corresponde aos dados da lista", solo.waitForText(session.getTrack()));
     }
-
-    //[x]
-    /*Dado que estou no ecrã "programa geral da conferência", então devem-me ser mostradas
-    todas as sessões do programa geral da conferência por date/hora de inicio crescente*/
-    public void testOrder() {
-        disableCommunications();
-        LinkedList<Session> testSessionList = new LinkedList<>();
-        testSessionList.add(new Session("2014/02/12", "08:10", "09:50", "este", "teste", "exemplo1", "de", "resolver"));
-        testSessionList.add(new Session("2014/02/14", "10:10", "11:50", "este", "teste", "exemplo4", "de", "resolver"));
-        testSessionList.add(new Session("2014/02/11", "10:10", "11:50", "este", "teste", "exemplo0", "de", "resolver"));
-        testSessionList.add(new Session("2014/02/13", "10:10", "11:50", "este", "teste", "exemplo3", "de", "resolver"));
-        testSessionList.add(new Session("2014/02/12", "10:10", "11:50", "este", "teste", "exemplo2", "de", "resolver"));
-        writeSessionsOnSessionFile(getActivity(), testSessionList);
-        openConferenceScheduleFragment();
-        List<Session> sessionListFromAdapter = getSessionListFromMyConferenceRecyclerViewAdapter();
-        assertTrue("A lista criada e lista que aparce no ecra não têm o mesmo tamanho", testSessionList.size() == sessionListFromAdapter.size());
-        //LinkedList<Session> orderedSessionList = orderSessionListByDate(testSessionList);
-        for (int i = 0; i < testSessionList.size(); i++) {
-            assertTrue("A lista não aparece por ordem crescente da date/hora de inicio", sessionListFromAdapter.get(i).getTitle().equals("exemplo" + String.valueOf(i)));
-        }
-    }
-
-
 
     /*
               _
@@ -517,9 +440,12 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         assertTrue("Não foi encontrado o título no drawer", solo.searchText(solo.getString(R.string.title_conference_schedule_fragment)));
         String scheduleTitle = solo.getString(R.string.title_conference_schedule_fragment);
         solo.clickOnText(scheduleTitle);
+        solo.sleep(1000);
+        assertTrue("Não apareceu para o fragmento Conference Schedule",
+                getActivity().getFragmentManager().findFragmentById(R.id.container) instanceof ConferenceScheduleFragment);
         ProgressBar pb = (ProgressBar) solo.getView(R.id.progressBar);
         while (pb.getVisibility() == View.VISIBLE) {
-            solo.sleep(200);
+            solo.sleep(20);
         }
         return scheduleTitle;
     }
@@ -608,43 +534,6 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     private boolean isDrawerStatusOpen() {
         DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         return mDrawerLayout.isDrawerOpen(GravityCompat.START);
-    }
-
-    private void writeSessionsOnSessionFile(Context context, LinkedList<Session> sessions) {
-        PrintWriter out = null;
-        int counter = 0;
-        try {
-            File outFile = new File(context.getFilesDir(), FileController.SESSIONS_FILE);
-            out = new PrintWriter(new FileWriter(outFile));
-            String text = "Date|Start|End|Room|Track|Title|Presenter|Abstract|Rating|FirebaseNode|OnAgenda";
-            out.println(text);
-            for (Session session : sessions) {
-                text = session.getDateFormattedString() + "|" +
-                        session.getStartHour() + "|" +
-                        session.getEndHour() + "|" +
-                        session.getRoom() + "|" +
-                        session.getTrack() + "|" +
-                        session.getTitle() + "|" +
-                        session.getPresenter() + "|" +
-                        session.getAbstracts() + "|" +
-                        session.getMyRating() + "|" +
-                        session.getFirebaseSessionNode() + "|" +
-                        session.isOnAgenda();
-                counter++;
-                if (counter < sessions.size()) {
-                    out.println(text);
-                } else {
-                    out.print(text);
-                }
-            }
-            out.flush();
-        } catch (IOException e) {
-            Log.e("Error", "Failed to write on file: ", e);
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-        }
     }
 
     private String[] getFilterOptions() {

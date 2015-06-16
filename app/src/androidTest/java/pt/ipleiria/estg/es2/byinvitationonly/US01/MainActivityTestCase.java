@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.firebase.client.Firebase;
 import com.robotium.solo.Solo;
@@ -85,6 +87,10 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
         assertFalse(isDrawerStatusOpen());
         assertTrue("O fragmento das Sessoes Ativas não foi carregado",
                 getActivity().getFragmentManager().findFragmentById(R.id.container) instanceof ActiveSessionsFragment);
+        ProgressBar pb = (ProgressBar) solo.getView(R.id.progressBar);
+        while (pb.getVisibility() == View.VISIBLE) {
+            solo.sleep(20);
+        }
     }
 
     //[X]
@@ -105,28 +111,6 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
                 "Rato Mickey",
                 "Nada a resumir.");
         createSessionOnServer(newSession);
-        openFragAndVerifyIfCreatedSessionIsActive(newSession, remainingTimeExpected);
-    }
-
-    //[X]
-    /*Dado que estou no ecrã das "Sessões Ativas" e não existe rede, deve-me ser
-    apresentada uma lista das sessões dos dados locais que estão a decorrer
-    neste momento com a sua informação: o dia, a hora de inicio, a hora de fim,
-    o título, a room, se existente, o track (track) de cada sessão e o
-    tempo restante para a mesma acabar.*/
-    public void testCheckListWithoutNetwork() {
-        solo.setWiFiData(false);
-        int remainingTimeExpected = 5;
-        Session newSession = new Session(
-                getTodayDate(),
-                getTodayHourAndMinutes(),
-                getTodayHourAndMinutesPlusMinutes(remainingTimeExpected),
-                "Sala Escondida",
-                "Trilhinho",
-                "Sessão sem jeito",
-                "Rato Mickey",
-                "Nada a resumir.");
-        createSessionOnLocalFile(newSession);
         openFragAndVerifyIfCreatedSessionIsActive(newSession, remainingTimeExpected);
     }
 
@@ -287,6 +271,11 @@ public class MainActivityTestCase extends ActivityInstrumentationTestCase2<MainA
     }
 
     private void verifyIfCreatedSessionIsNotActive(Session newSession) {
+        RecyclerView rv = (RecyclerView) getActivity().findViewById(R.id.my_recycler_view);
+        MyActiveSessionsRecyclerViewAdapter adapter = (MyActiveSessionsRecyclerViewAdapter) rv.getAdapter();
+        LinkedList ativeSessionList = (LinkedList<Session>) adapter.getActiveSessionList();
+
+
         assertTrue("O numero de sessões ativas não é o esperado", getActiveSessions().size() == 0);
     }
 
