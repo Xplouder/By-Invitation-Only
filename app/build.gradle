@@ -4,6 +4,10 @@ android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
+    repositories {
+        mavenCentral();
+    }
+
     defaultConfig {
         applicationId "pt.ipleiria.estg.es2.byinvitationonly.byinvitationonly"
         minSdkVersion 21
@@ -32,4 +36,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.2.0'
 }

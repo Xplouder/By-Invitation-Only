@@ -7,6 +7,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.facebook.FacebookSdk;
 import com.firebase.client.Firebase;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
@@ -44,6 +45,7 @@ public class SplashScreenActivity extends Activity {
         myImageView.startAnimation(myFadeInAnimation);
         timer.start();
         setFirebaseConfigs();
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     private void setFirebaseConfigs() {
