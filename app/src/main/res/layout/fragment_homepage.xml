@@ -24,7 +24,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="Conference Name" />
 
     <TextView
         android:id="@+id/textViewLocation"
@@ -33,7 +34,8 @@
         android:layout_below="@+id/textViewFullName"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="location" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -52,7 +54,8 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="dates" />
 
     <TextView
         android:id="@+id/textCallforPapers"
@@ -61,7 +64,8 @@
         android:layout_below="@+id/textViewDates"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="call for papers link" />
 
     <TextView
         android:id="@+id/textWebsite"
@@ -70,7 +74,8 @@
         android:layout_below="@+id/textCallforPapers"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Website link" />
 
     <!--FOOTER-->
 

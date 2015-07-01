@@ -47,7 +47,6 @@ public class ContactSettingsActivity extends PreferenceActivity {
                 .commit();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -95,7 +94,6 @@ public class ContactSettingsActivity extends PreferenceActivity {
             super.onBackPressed();
         }
     }
-
 
     private void defineFacebookCallbacks(final Context context) {
         if (loginButton != null) {

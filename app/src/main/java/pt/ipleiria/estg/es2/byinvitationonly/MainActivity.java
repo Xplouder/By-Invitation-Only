@@ -89,10 +89,10 @@ public class MainActivity extends MyBaseActivity implements
             FirebaseController.getMessages(getApplicationContext());
         }
         if (notification) {
-            final List<String> lista = (List<String>) i.getSerializableExtra("lista");
+            final List<String> list = (List<String>) i.getSerializableExtra("lista");
             final LinkedList<Contact> contacts = new LinkedList<>();
 
-            for (String l : lista) {
+            for (String l : list) {
                 contacts.add(getContactFromBytes(l));
             }
 

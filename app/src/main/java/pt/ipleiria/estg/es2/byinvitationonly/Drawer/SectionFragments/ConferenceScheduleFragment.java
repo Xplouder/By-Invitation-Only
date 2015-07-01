@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.FirebaseController;
-import pt.ipleiria.estg.es2.byinvitationonly.Controllers.NetworkController;
 import pt.ipleiria.estg.es2.byinvitationonly.Controllers.SharedPreferenceController;
 import pt.ipleiria.estg.es2.byinvitationonly.CustomComponents.Adapters.MyConferenceRecyclerViewAdapter;
 import pt.ipleiria.estg.es2.byinvitationonly.Database.DBAdapter;
@@ -40,6 +40,7 @@ import pt.ipleiria.estg.es2.byinvitationonly.R;
  */
 public class ConferenceScheduleFragment extends Fragment {
     public static final int ARG_SECTION_NUMBER = 2;
+
     private LinkedList<Session> sessionList = new LinkedList<>();
     private RecyclerView recyclerView;
     private TextView emptyView;
@@ -51,6 +52,7 @@ public class ConferenceScheduleFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private Context context;
     private DBAdapter dbAdapter;
+    private Handler loadBufferHandler;
 
     public ConferenceScheduleFragment() {
         // Required empty public constructor
@@ -60,31 +62,11 @@ public class ConferenceScheduleFragment extends Fragment {
         return new ConferenceScheduleFragment();
     }
 
-    public void loadSessionDataFromServer(LinkedList<Session> sessionList) {
-        this.sessionList = orderByDate(sessionList);
-        if (!SharedPreferenceController.getFilterState(context) || pb.getVisibility() == View.VISIBLE) {
-            changeAdapterData(this.sessionList);
-            recyclerView.setVisibility(View.VISIBLE);
-            pb.setVisibility(View.GONE);
-        }
-    }
-
-    public void loadSessionDataFromFile(LinkedList<Session> sessionList) {
-        this.sessionList = orderByDate(sessionList);
-        changeAdapterData(this.sessionList);
-        recyclerView.setVisibility(View.VISIBLE);
-        pb.setVisibility(View.GONE);
-    }
-
-    private LinkedList<Session> orderByDate(LinkedList<Session> sessionList) {
-        Collections.sort(sessionList);
-        return sessionList;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbAdapter = new DBAdapter(getActivity());
+        context = getActivity();
+        dbAdapter = new DBAdapter(context);
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -94,11 +76,11 @@ public class ConferenceScheduleFragment extends Fragment {
             }
 
             private void refreshRatingOnSessionsThatChangedState() {
-                linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                for (int i = linearLayoutManager.findFirstVisibleItemPosition();
-                     i <= linearLayoutManager.findLastVisibleItemPosition(); i++) {
+                if (!mDataAdapter.getSessionList().isEmpty()) {
+                    linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    for (int i = linearLayoutManager.findFirstVisibleItemPosition();
+                         i <= linearLayoutManager.findLastVisibleItemPosition(); i++) {
 
-                    if (!mDataAdapter.getSessionList().isEmpty()) {
                         Session session = mDataAdapter.getSessionList().get(i);
                         View cardView = linearLayoutManager.findViewByPosition(i);
 
@@ -115,7 +97,13 @@ public class ConferenceScheduleFragment extends Fragment {
                 }
             }
         };
-        this.context = getActivity();
+        fireBaseHandler = new FirebaseController.ValueFetched<LinkedList<Session>>() {
+            @Override
+            public void valuesFetched(LinkedList<Session> firebaseSessionList) {
+                loadSessionDataFromServer(firebaseSessionList);
+            }
+        };
+        loadBufferHandler = new Handler();
     }
 
     @Override
@@ -125,6 +113,7 @@ public class ConferenceScheduleFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_conference_schedule, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.my_recycler_view);
         emptyView = (TextView) layout.findViewById(R.id.empty_data);
+        pb = (ProgressBar) layout.findViewById(R.id.progressBar);
         mDataAdapter = new MyConferenceRecyclerViewAdapter(getActivity(), sessionList);
         mDataAdapter.setClickListener(new MyConferenceRecyclerViewAdapter.ItemClickListener() {
             @Override
@@ -139,14 +128,7 @@ public class ConferenceScheduleFragment extends Fragment {
             @Override
             public void notifyThatSessionOnOriginalListChangedOnAgenda(Session session) {
                 for (Session originalSession : sessionList) {
-                    if (originalSession.getAbstracts().equals(session.getAbstracts()) &&
-                            originalSession.getDateFormattedString().equals(session.getDateFormattedString()) &&
-                            originalSession.getEndHour().equals(session.getEndHour()) &&
-                            originalSession.getPresenter().equals(session.getPresenter()) &&
-                            originalSession.getStartHour().equals(session.getStartHour()) &&
-                            originalSession.getTitle().equals(session.getTitle()) &&
-                            originalSession.getTrack().equals(session.getTrack())) {
-
+                    if (originalSession.getFirebaseSessionNode().equals(session.getFirebaseSessionNode())) {
                         originalSession.setOnAgenda(false);
                     }
                 }
@@ -155,8 +137,7 @@ public class ConferenceScheduleFragment extends Fragment {
         recyclerView.setAdapter(mDataAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVisibility(View.VISIBLE);
-        pb = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         return layout;
     }
 
@@ -186,17 +167,33 @@ public class ConferenceScheduleFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fireBaseHandler = new FirebaseController.ValueFetched<LinkedList<Session>>() {
+        pb.setVisibility(View.VISIBLE);
+        // Thread serve para atrasar um pouco o carregamento dos dados, removendo assim
+        // o efeito de "freeze" no drawer, ficando este mais fluido
+        (new Thread() {
             @Override
-            public void valuesFetched(LinkedList<Session> firebaseSessionList) {
-                loadSessionDataFromServer(firebaseSessionList);
+            public void run() {
+                try {
+                    sleep(300);
+                    FirebaseController.getConferenceSessionsContinuous(fireBaseHandler, getActivity());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        };
-        if (NetworkController.existConnection(getActivity())) {
-            pb.setVisibility(View.VISIBLE);
-        }
-        FirebaseController.getConferenceSessionsContinuous(fireBaseHandler, getActivity());
+        }).start();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+    }
+
+    public void loadSessionDataFromServer(LinkedList<Session> sessionList) {
+        this.sessionList = orderByDate(sessionList);
+        if (!SharedPreferenceController.getFilterState(context) || pb.getVisibility() == View.VISIBLE) {
+            changeAdapterData(this.sessionList);
+        }
+    }
+
+    private LinkedList<Session> orderByDate(LinkedList<Session> sessionList) {
+        Collections.sort(sessionList);
+        return sessionList;
     }
 
     public void showSessionsBySelectedTracks(LinkedList<String> selectedTrackList) {
@@ -224,6 +221,12 @@ public class ConferenceScheduleFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
         }
         mDataAdapter.setSessionList(sessions);
+        loadBufferHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                pb.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void search(CharSequence query) {

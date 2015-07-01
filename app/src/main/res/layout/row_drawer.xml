@@ -15,7 +15,7 @@
         android:layout_marginRight="16dp"
         android:contentDescription="@null"
         android:gravity="center_vertical"
-        tools:src="@drawable/ic_action_alone" />
+        tools:src="@drawable/ic_drawer_statistics" />
 
     <TextView
         android:id="@+id/listText"

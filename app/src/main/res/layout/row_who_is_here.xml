@@ -11,56 +11,44 @@
     card_view:cardMaxElevation="0dp"
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="4dp">
-    <!--android:onClick="onClickAction"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="4dp"
-    android:layout_marginBottom="4dp"-->
-    <!--padding amount is equal to maxCardElevation + (1 - cos45) * cornerRadius on the sides
-    and maxCardElevation * 1.5 + (1 - cos45) * cornerRadius on top and bottom.-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/image_view_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:contentDescription="@null" />
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@null"
+            tools:src="@mipmap/ic_launcher" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewName"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/image_view_avatar"
             android:layout_toEndOf="@+id/image_view_avatar"
             android:layout_toStartOf="@+id/imageMessageIcon"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingEnd="0dp"
-            android:paddingStart="20dp">
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            tools:text="Contact Name" />
 
-            <TextView
-                android:id="@+id/textViewName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="bold"
-                tools:text="Contact Name" />
-
-            <TextView
-                android:id="@+id/textViewEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                tools:text="Contact Email" />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewName"
+            android:layout_toEndOf="@+id/image_view_avatar"
+            android:layout_toStartOf="@+id/imageMessageIcon"
+            android:singleLine="true"
+            tools:text="Contact Email" />
 
         <ImageView
             android:id="@+id/imageMessageIcon"
@@ -69,6 +57,7 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:contentDescription="@null"
             android:src="@drawable/ic_action_message"
