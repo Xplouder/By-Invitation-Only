@@ -275,7 +275,7 @@ public class FirebaseController {
 
                     Intent rI = new Intent(appContext, MainActivity.class);
                     rI.putExtra(MainActivity.EXTRA_NOTIFICATION, true);
-                    rI.putExtra("lista", sendersForRead);
+                    rI.putExtra("list", sendersForRead);
 
                     TaskStackBuilder stackBuilder = TaskStackBuilder.create(appContext);
                     stackBuilder.addParentStack(MainActivity.class);

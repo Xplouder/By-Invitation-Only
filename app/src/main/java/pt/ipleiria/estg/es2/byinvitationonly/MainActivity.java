@@ -69,27 +69,23 @@ public class MainActivity extends MyBaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         isChecked = SharedPreferenceController.isImHereActive(MainActivity.this);
 
         mNavigationDrawerFragment.setOnAdapterWhoIsHere(isChecked);
         mDrawerItemSwitcher = mNavigationDrawerFragment;
 
-        Intent i = getIntent();
-        boolean notification = i.getBooleanExtra(EXTRA_NOTIFICATION, false);
+        boolean notification = getIntent().getBooleanExtra(EXTRA_NOTIFICATION, false);
         if (isChecked && !notification) {
             FirebaseController.getMessages(getApplicationContext());
         }
         if (notification) {
-            final List<String> list = (List<String>) i.getSerializableExtra("lista");
+            final List<String> list = (List<String>) getIntent().getSerializableExtra("list");
             final LinkedList<Contact> contacts = new LinkedList<>();
 
             for (String l : list) {
@@ -98,19 +94,17 @@ public class MainActivity extends MyBaseActivity implements
 
             changeActiveSectionFragment(WhoIsHereFragment.ARG_SECTION_NUMBER, R.string.title_who_is_here_fragment);
 
-            AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-            builderSingle.setIcon(R.mipmap.ic_launcher);
-            builderSingle.setTitle(getString(R.string.choose_who));
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setIcon(R.mipmap.ic_launcher);
+            alertDialog.setTitle(getString(R.string.choose_who));
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
             for (Contact c : contacts) {
                 arrayAdapter.add(c.getName());
             }
-            builderSingle.setNegativeButton(getString(R.string.cancel), null);
+            alertDialog.setNegativeButton(getString(R.string.cancel), null);
 
-            builderSingle.setAdapter(arrayAdapter,
+            alertDialog.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
-
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String strName = arrayAdapter.getItem(which);
@@ -126,7 +120,7 @@ public class MainActivity extends MyBaseActivity implements
                             startActivity(intent);
                         }
                     });
-            builderSingle.show();
+            alertDialog.show();
         }
     }
 
