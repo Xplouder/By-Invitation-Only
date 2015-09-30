@@ -82,7 +82,7 @@ public class AgendaFragment extends Fragment implements MyAgendaRecyclerViewAdap
         }
     }
 
-    public void loadSessionData(LinkedList<Session> sessionList) {
+    private void loadSessionData(LinkedList<Session> sessionList) {
         this.sessionList = orderByDate(sessionList);
         changeAdapterData(this.sessionList);
         recyclerView.setVisibility(View.VISIBLE);

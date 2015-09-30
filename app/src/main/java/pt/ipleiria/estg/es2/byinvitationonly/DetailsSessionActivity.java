@@ -25,7 +25,6 @@ public class DetailsSessionActivity extends MyBaseActivity {
     private Session session;
     private CheckBox checkBox;
     private BroadcastReceiver broadcastReceiver;
-    private Context context;
     private DBAdapter dbAdapter;
 
     @Override
@@ -36,7 +35,6 @@ public class DetailsSessionActivity extends MyBaseActivity {
         this.dbAdapter = new DBAdapter(getApplicationContext());
         session = (Session) i.getSerializableExtra(EXTRA_SESSION);
         isChecked = i.getBooleanExtra(EXTRA_ISCHECKED, false);
-        this.context = this;
         loadData();
 
         myRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

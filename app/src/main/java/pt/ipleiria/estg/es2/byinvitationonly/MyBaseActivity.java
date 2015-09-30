@@ -59,7 +59,7 @@ public abstract class MyBaseActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void invertCheckIn() {
+    private void invertCheckIn() {
         if (!isChecked) {
             tryCheckIn = true;
             myContact = SharedPreferenceController.getLocalStoredUserContact(this);

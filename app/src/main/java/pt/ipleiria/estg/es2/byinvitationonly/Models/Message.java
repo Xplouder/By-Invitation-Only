@@ -5,6 +5,7 @@ import android.util.Log;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Message {
     private Contact receiver;
@@ -31,7 +32,7 @@ public class Message {
 
     private Timestamp convertStringToTimestamp(String timetampStr) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS", Locale.US);
             Date parsedDate = dateFormat.parse(timetampStr);
             return new Timestamp(parsedDate.getTime());
         } catch (Exception e) {//this generic but you can control another types of exception

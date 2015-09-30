@@ -227,7 +227,7 @@ public class ContactChatActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendMessage() {
+    private void sendMessage() {
         Message message = new Message(otherContact,
                 SharedPreferenceController.getLocalStoredUserContact(this),
                 txtMessage.getText().toString()
@@ -238,9 +238,8 @@ public class ContactChatActivity extends Activity {
         txtMessage.setText("");
     }
 
-    private Message sendMessageToFirebase(Message message) {
+    private void sendMessageToFirebase(Message message) {
         FirebaseController.sendMessage(message);
-        return message;
     }
 
     private synchronized void changeAdapterData(final LinkedList<Message> chatList) {

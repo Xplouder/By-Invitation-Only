@@ -32,14 +32,13 @@ public class ContactSettingsActivity extends PreferenceActivity {
     private LoginButton loginButton;
     private CallbackManager callbackManager;
     private updateUserInformationListener updateListener;
-    private MyPreferenceFragment mpf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intent = getIntent();
         isChecked = intent.getBooleanExtra(MainActivity.EXTRA_ISCHECKED, false);
-        mpf = new MyPreferenceFragment();
+        MyPreferenceFragment mpf = new MyPreferenceFragment();
         updateListener = mpf;
 
         getFragmentManager().beginTransaction()

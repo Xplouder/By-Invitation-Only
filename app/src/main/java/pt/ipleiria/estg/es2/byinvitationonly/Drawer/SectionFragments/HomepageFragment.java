@@ -62,13 +62,6 @@ public class HomepageFragment extends Fragment {
         return fragment;
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,7 +133,7 @@ public class HomepageFragment extends Fragment {
         }
     }
 
-    public void loadConferenceData(Conference conference) {
+    private void loadConferenceData(Conference conference) {
         this.conference = conference;
         if (mListener != null) {
             mListener.updateActivityTitle(this.conference.getAbbreviation());

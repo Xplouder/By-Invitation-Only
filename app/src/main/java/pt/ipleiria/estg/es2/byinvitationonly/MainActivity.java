@@ -173,17 +173,17 @@ public class MainActivity extends MyBaseActivity implements
         Fragment frag;
         switch (position) {
             case 0:
-                frag = new HomepageFragment().newInstance();
+                frag = HomepageFragment.newInstance();
                 break;
             case 1:
-                frag = new ConferenceScheduleFragment().newInstance();
+                frag = ConferenceScheduleFragment.newInstance();
                 conferenceFrag = (ConferenceScheduleFragment) frag;
                 break;
             case 2:
-                frag = new ActiveSessionsFragment().newInstance();
+                frag = ActiveSessionsFragment.newInstance();
                 break;
             case 3:
-                frag = new AgendaFragment().newInstance();
+                frag = AgendaFragment.newInstance();
                 break;
             default:
                 return null;
@@ -195,20 +195,20 @@ public class MainActivity extends MyBaseActivity implements
         Fragment frag;
         switch (position) {
             case 0:
-                frag = new HomepageFragment().newInstance();
+                frag = HomepageFragment.newInstance();
                 break;
             case 1:
-                frag = new ConferenceScheduleFragment().newInstance();
+                frag = ConferenceScheduleFragment.newInstance();
                 conferenceFrag = (ConferenceScheduleFragment) frag;
                 break;
             case 2:
-                frag = new WhoIsHereFragment().newInstance();
+                frag = WhoIsHereFragment.newInstance();
                 break;
             case 3:
-                frag = new ActiveSessionsFragment().newInstance();
+                frag = ActiveSessionsFragment.newInstance();
                 break;
             case 4:
-                frag = new AgendaFragment().newInstance();
+                frag = AgendaFragment.newInstance();
                 break;
             default:
                 return null;
@@ -220,22 +220,22 @@ public class MainActivity extends MyBaseActivity implements
 
         switch (position) {
             case 0:
-                return new HomepageFragment().newInstance();
+                return HomepageFragment.newInstance();
             case 1:
-                Fragment frag = new ConferenceScheduleFragment().newInstance();
+                Fragment frag = ConferenceScheduleFragment.newInstance();
                 conferenceFrag = (ConferenceScheduleFragment) frag;
                 return frag;
             case 2:
-                return new WhoIsHereFragment().newInstance();
+                return WhoIsHereFragment.newInstance();
             case 3:
-                return new ActiveSessionsFragment().newInstance();
+                return ActiveSessionsFragment.newInstance();
             case 4:
-                return new AgendaFragment().newInstance();
+                return AgendaFragment.newInstance();
             case 5:
                 if (!NetworkController.existConnection(this)) {
                     showConnectivityError();
                 } else {
-                    return new StatisticsFragment().newInstance();
+                    return StatisticsFragment.newInstance();
                 }
                 break;
             default:
@@ -292,7 +292,7 @@ public class MainActivity extends MyBaseActivity implements
         restoreActionBar();
     }
 
-    public void restoreActionBar() {
+    private void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -490,4 +490,5 @@ public class MainActivity extends MyBaseActivity implements
     public void filterByOnAgenda() {
         this.conferenceFrag.filterByOnAgenda();
     }
+
 }

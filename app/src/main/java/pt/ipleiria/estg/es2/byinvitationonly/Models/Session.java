@@ -88,8 +88,7 @@ public class Session implements Serializable, Comparable<Session> {
         int month = cal.get(Calendar.MONTH) + 1;
         String monthName = getMonthForInt(month - 1);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        StringBuilder sb = new StringBuilder();
-        return sb.append(day).append(" ").append(monthName).toString();
+        return String.valueOf(day) + " " + monthName;
     }
 
     public String getDateFormattedString() {
@@ -99,8 +98,7 @@ public class Session implements Serializable, Comparable<Session> {
         // A API do Java começa os meses com indice 0 em Janeiro
         int month = cal.get(Calendar.MONTH) + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        StringBuilder sb = new StringBuilder();
-        return sb.append(year).append("/").append((month < 10 ? ("0" + month) : (month))).append("/").append((day < 10 ? ("0" + day) : (day))).toString();
+        return String.valueOf(year) + "/" + (month < 10 ? ("0" + month) : (month)) + "/" + (day < 10 ? ("0" + day) : (day));
     }
 
     public String getStartHour() {
@@ -177,7 +175,7 @@ public class Session implements Serializable, Comparable<Session> {
         cal.setTime(date);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        return new StringBuilder().append(month).append(" - ").append(year).toString();
+        return String.valueOf(month) + " - " + year;
     }
 
     private int getIntStartHour() {
@@ -192,7 +190,6 @@ public class Session implements Serializable, Comparable<Session> {
 
     private int getIntEndHour() {
         String[] sArray = endHour.split(":");
-        int i = Integer.parseInt(sArray[0]);
         return Integer.parseInt(sArray[0]);
     }
 

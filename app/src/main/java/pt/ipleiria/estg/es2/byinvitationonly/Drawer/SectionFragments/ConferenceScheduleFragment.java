@@ -184,7 +184,7 @@ public class ConferenceScheduleFragment extends Fragment {
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
     }
 
-    public void loadSessionDataFromServer(LinkedList<Session> sessionList) {
+    private void loadSessionDataFromServer(LinkedList<Session> sessionList) {
         this.sessionList = orderByDate(sessionList);
         if (!SharedPreferenceController.getFilterState(context) || pb.getVisibility() == View.VISIBLE) {
             changeAdapterData(this.sessionList);

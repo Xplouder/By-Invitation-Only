@@ -24,7 +24,6 @@
         android:title="@string/i_am_here" />
     <item
         android:id="@+id/action_settings"
-        android:onClick="onOptionsItemSelected"
         android:orderInCategory="5"
         android:showAsAction="never"
         android:title="@string/action_settings" />

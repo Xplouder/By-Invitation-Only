@@ -7,7 +7,7 @@
     </string-array>
 
     <string name="app_name">By Invitation Only</string>
-    <string name="facebook_app_id">969726059739337</string>
+    <string name="facebook_app_id" translatable="false">969726059739337</string>
     <string name="action_settings">Settings</string>
     <string name="i_am_here">I\'m Here</string>
     <string name="yes">Yes</string>
@@ -25,24 +25,17 @@
     <string name="incomplete_data">Incomplete Data</string>
     <string name="ad_incomplete_data">Contact Data is incomplete.\nWould you like to complete them?</string>
     <string name="cancel">Cancel</string>
-    <string name="title_activity_my_base">MyBaseActivity</string>
     <string name="warning">Warning!</string>
     <string name="ok">OK</string>
-    <string name="title_activity_drawer">Navigator</string>
     <string name="title_homepage_fragment">Homepage</string>
     <string name="title_conference_schedule_fragment">Conference Schedule</string>
     <string name="title_who_is_here_fragment">Who is Here</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
     <string name="back">Back</string>
-    <string name="exit">Exit</string>
     <string name="search">Search</string>
-    <string name="refresh">Refresh</string>
     <string name="disableSharing">Disable sharing</string>
     <string name="ad_disableSharing">Do not have the completed data! Just can not keep sharing the active contact.</string>
-    <string name="loading">Loading…</string>
-    <string name="toast_error_files">Error on reading files!</string>
     <string name="track">Track</string>
     <string name="date">Date</string>
     <string name="startHour">Start Hour</string>
@@ -62,10 +55,8 @@
     <string name="no_data">No data</string>
     <string name="request_filter_track">Please select which tracks you want to filter:</string>
     <string name="title_session_details">Session Details</string>
-    <string name="contact">Contact</string>
     <string name="title_active_session_fragment">Active Sessions</string>
     <string name="no_active_sessions">No active Sessions at this moment</string>
-    <string name="choseEmailClient">Choose an Email client:</string>
     <string name="noActivePersonsToNetworking">No active Persons to networking</string>
     <string name="title_activity_contact_chat">Chat</string>
     <string name="default_send_chat_message">Write your message…</string>
@@ -77,7 +68,6 @@
     <string name="checkbox_session_to_agenda">On Agenda</string>
     <string name="credits_team">Powered by: TeamOutOfBoundsException</string>
     <string name="title_agenda_fragment">My Agenda</string>
-    <string name="myAgenda">My Agenda:</string>
     <string name="title_statistics_fragment">Statistics</string>
     <string name="confirmation_send_agenda">Are you sure you want to send your Agenda?</string>
     <string name="n_a_string">N/A</string>

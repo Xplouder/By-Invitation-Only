@@ -66,7 +66,7 @@ public class ActiveSessionsFragment extends Fragment {
         return fragment;
     }
 
-    public void loadSessionData(LinkedList<Session> sessionList) {
+    private void loadSessionData(LinkedList<Session> sessionList) {
         LinkedList<Session> sL = new LinkedList<>();
         for (Session s : sessionList) {
             if (s.isActive()) {
